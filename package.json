@@ -1,12 +1,12 @@
 {
   "name": "combine-multidisc-dat",
   "version": "1.0.0",
-  "description": "",
+  "description": "Update DAT files to combine multidisc games into single entries",
   "main": "index.ts",
   "scripts": {
     "start": "npx ts-node index.ts"
   },
-  "author": "",
+  "author": "humantree",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.4.0",
