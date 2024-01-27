@@ -9,6 +9,7 @@ type Rom = {
     crc: string
     md5: string
     sha1: string
+    mia?: "yes"
   }
 }
 
@@ -35,11 +36,34 @@ const xml = readFileSync(filename, { encoding: "utf8" })
 
 const combinedGames: Game[] = []
 
+// TODO: Move this to be passed in as an external file.
+const miaList = [
+  "Arc the Lad III (Japan) (Demo 2)",
+  "Casper - Friends Around the World (Korea)",
+  "Ehrgeiz - God Bless the Ring (Japan) (Demo 2)",
+  "Frogger 2 - Swampy's Revenge (Europe) (Beta) (2000-02-04)",
+  "Frogger 2 - Swampy's Revenge (Europe) (Beta) (2000-06-06)",
+  "Frogger 2 - Swampy's Revenge (Europe) (Beta) (2000-06-29)",
+  "Frogger 2 - Swampy's Revenge (Europe) (Beta) (2000-07-25)",
+  "Frogger 2 - Swampy's Revenge (Europe) (En,Fr,De,It) (Beta) (2000-03-01)",
+  "Frogger 2 - Swampy's Revenge (USA) (Beta) (2000-04-05)",
+  "Frogger 2 - Swampy's Revenge (USA) (Beta) (2000-06-09)",
+  "Frogger 2 - Swampy's Revenge (USA) (Beta) (2000-06-14)",
+  "Frogger 2 - Swampy's Revenge (USA) (Beta) (2000-07-18)",
+  "Frogger 2 - Swampy's Revenge (USA) (Beta) (2000-07-25)",
+  "Frogger 2 - Swampy's Revenge (USA) (Beta) (2000-07-31)",
+  "Ore no Shikabane o Koete Yuke (Japan) (Demo)",
+]
+
 parseString(xml, (err, dat: Datfile) => {
   if (err) throw err
 
   dat.datafile.game.map((game) => {
     const { name } = game.$
+
+    if (miaList.includes(name)) {
+      game.rom.forEach((rom) => (rom.$.mia = "yes"))
+    }
 
     if (name.match(/ \(Disc \d\)/)) {
       const combinedName = name.replace(/ \(Disc \d\)/, "")
